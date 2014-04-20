@@ -6,10 +6,11 @@ import java.net.*;
 
 public class ChatServer {
 	private ArrayList<ServerThread> list;
+	public boolean listening = true;
 	public ChatServer(){
 		list = new ArrayList();
 	}
-	public void Run(){
+	public void start(){
 		try{
 			Scanner kb = new Scanner(System.in);
 			System.out.print("enter port number");
@@ -17,10 +18,12 @@ public class ChatServer {
 			ServerSocket s;
 
 			s = new ServerSocket(portNumber);
-			boolean listening = true;
 			while(listening){
+				System.out.println("listening for client connection request(Server)");
 				list.add(new ServerThread(s.accept(),this));
-				list.get(list.size()-1).start();
+				System.out.println("Thread created(Server(");
+				list.get(list.size()-1).start();			
+				System.out.println("new thread started(Server)");
 			}
 			s.close();
 		}
@@ -29,7 +32,7 @@ public class ChatServer {
 			e.printStackTrace();
 		}
 	}
-	public void Update(String message){
+	public void update(String message){
 		for(int i=0;i<list.size();i++){
 			list.get(i).send(message);
 		}

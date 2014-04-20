@@ -50,7 +50,7 @@ public class Client extends Thread implements ActionListener {
 		int portNumber = kb.nextInt();//and this allow for server address calling on while starting the program
 		try{// use parentheses in this declaration in order to close it later, only for writer reader stuff tho. ;)
 			Socket chatSocket = new Socket(hostName,portNumber);
-			output = new PrintWriter(chatSocket.getOutputStream());
+			output = new PrintWriter(chatSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(chatSocket.getInputStream()));
 		}catch(IOException e){
 			e.printStackTrace();
@@ -74,23 +74,35 @@ public class Client extends Thread implements ActionListener {
 		return str;
 	}
 	public void actionPerformed(ActionEvent event) {//just a thing for the action of the textField
+		System.out.println("this system is working");//delete upon finishing the program
 		String text = textField.getText();
 		String timeStamp = getTimeStamp();
 		output.write(timeStamp+" "+text);
+		//ADD A THING TO CLEAR THE TEXTFIELD
 	}
 	public void run(){//this just checks for a message from the server
 		while(active){
 			System.out.println("Polling for input(ClientSide Message)");
 			try {
-				while(!in.ready()){
-					System.out.println("Input detected, attempting to append");
-					textArea.append(in.readLine()+"\n");
-					System.out.println("Input received from server");
-				}
-			} catch (IOException e) {
+				String str = in.readLine();
+				System.out.println("attempting to append anything to textArea");
+				textArea.append("This field is working");
+				System.out.println("Input detected, attempting to append \n");
+				textArea.append(str+"\n");
+				System.out.println("Input received from server");
+			}
+
+			catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println();
 				e.printStackTrace();
 			}
 		}
-	}
+		try {
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		output.close();
+	}	
 }
