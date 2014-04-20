@@ -80,9 +80,10 @@ public class Client extends Thread implements ActionListener {
 	}
 	public void run(){//this just checks for a message from the server
 		while(active){
-			System.out.println("Polling for input");
+			System.out.println("Polling for input(ClientSide Message)");
 			try {
 				while(!in.ready()){
+					System.out.println("Input detected, attempting to append");
 					textArea.append(in.readLine()+"\n");
 					System.out.println("Input received from server");
 				}

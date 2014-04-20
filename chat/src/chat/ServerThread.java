@@ -30,10 +30,12 @@ public class ServerThread extends Thread {
 	public void run(){
 		//This polls for input from the client
 		//upon getting a message, it posts it to the server
+		System.out.println("Running");
 		while(chatServer.listening){
 			try {
 				System.out.println("polling for input");
 				while(in.ready()){
+					System.out.print("Input received");
 					inMessage = in.readLine();
 					chatServer.update(inMessage);
 					System.out.print("this means message was recieved");
